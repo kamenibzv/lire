@@ -1,4 +1,4 @@
-# Lire - means "read" in French
+# Lire
 Lire is an iOS app that uses the Open Library API to allow users to search and add their favorite books to their wish list
 Installing
 
