@@ -1,0 +1,6 @@
+framework module Pods_Lire {
+  umbrella header "Pods-Lire-umbrella.h"
+
+  export *
+  module * { export * }
+}
