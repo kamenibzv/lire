@@ -187,6 +187,7 @@ class DetailViewController: UIViewController {
             if thisBook.isInDatabase(){
                 thisBook.removeFromDatabase()
                 sender.isHidden = true
+                viewBookButton.isHidden = true // This is to avoid crashing as the object has been deleted
             }
             else {
                 thisBook.addToDatabase()
