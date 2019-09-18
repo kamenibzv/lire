@@ -14,6 +14,8 @@ class WishListVC: UIViewController {
     /*
      This class is used to show books the user has saved
     */
+    
+    // Define attributes
     private let realm = try! Realm()
     private let backgroundText = "Search and add books to your wishlist. Swipe left to remove from wishlist!"
     

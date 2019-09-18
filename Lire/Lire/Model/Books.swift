@@ -9,22 +9,6 @@
 import Foundation
 import RealmSwift
 
-//class Root: Object, Decodable {
-//    // Make docs a Realm list
-//    var docs = List<Books>()
-//    
-//    private enum CodingKeys: String, CodingKey {
-//        case docs
-//    }
-//    
-//    public required convenience init(from decoder: Decoder) throws {
-//        self.init()
-//        let container = try decoder.container(keyedBy: CodingKeys.self)
-//        
-//        let book = try container.decode([Books].self, forKey: .docs)
-//        docs.append(objectsIn: book)
-//    }
-//}
 
 struct Root: Decodable {
     var docs: [Books]?

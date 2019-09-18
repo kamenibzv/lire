@@ -24,6 +24,10 @@ class LireDataPresenter {
      Responsible for making data calls and acting as the presenter to send the data back to the view using protocols
      */
     
+    deinit {
+        print("DEINIT: Data Prensenter")
+    }
+    
     // Define properties
     var delegate: DataPresenterProtocol?
     private var resultFromCall: Root?

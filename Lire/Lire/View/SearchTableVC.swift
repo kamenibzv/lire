@@ -17,8 +17,10 @@ class SearchTableVC: UIViewController {
      */
     
     // Define properties
+//    private let vc = DetailViewController()
     private let realm = try! Realm()
     private let presenter = LireDataPresenter()
+    private var lastTextSearched = "" // Store the last text searched and use to perform a search if an item was deleted from the wishlistVC
     
     private var resultFromCall: [Books]? {
         didSet {
@@ -68,11 +70,24 @@ class SearchTableVC: UIViewController {
         bar.placeholder = "Search Your Favorite Book"
         return bar
     }()
+    
+    deinit {
+        print("DEINIT: SearchTableVC")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupview()
+//        vc.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // This is in the case where an item has been deleted from the detailVC. 
+        if lastTextSearched != "" {
+            presenter.performSearch(with: lastTextSearched)
+        }
     }
     
     private func setupview() {
@@ -103,6 +118,7 @@ extension SearchTableVC: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // call the API here
+        lastTextSearched = searchText
         presenter.performSearch(with: searchText)
 
     }
@@ -223,3 +239,5 @@ extension SearchTableVC: DataPresenterProtocol {
     
     
 }
+
+// MARK: - DetailVC Delegate

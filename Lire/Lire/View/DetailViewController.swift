@@ -9,6 +9,12 @@
 import UIKit
 import SafariServices
 
+//protocol DeletionOccured {
+//    // This is used to tell the SearchTableVC that the object has been deleted so it can redo a search and avoid populating
+//    // The tableview with data it already deleted and crashing
+//    func deletionDidOccur()
+//}
+
 class DetailViewController: UIViewController {
     /*
      This view is used to show details about the book users selected
@@ -19,13 +25,15 @@ class DetailViewController: UIViewController {
         didSet {
             // Configure the view to show the right data
             var author = ""
-            if let thisBook = book{
+            if let thisBook = book {
                 author = thisBook.authorName.joined(separator: ", ")
                 // Set text of addRemoveFromWishlist button
                 if thisBook.isInDatabase(){
+                    removeFromWishlist = false
                     addRemoveFromWishlist.setAttributedTitle("Remove from Wishlist".buttonAttributedText(), for: .normal)
                 }
                 else {
+                    removeFromWishlist = true
                     addRemoveFromWishlist.setAttributedTitle("Add to Wishlist".buttonAttributedText(), for: .normal)
                 }
             }
@@ -35,6 +43,9 @@ class DetailViewController: UIViewController {
             
         }
     }
+    
+    private var removeFromWishlist: Bool?
+    private var performAction = false
     
     // Get height of navbar plus status bar
     private var navBarPlusStatusbar : CGFloat{
@@ -49,7 +60,6 @@ class DetailViewController: UIViewController {
             }
         }
     }
-    
     
     // Define views
     private lazy var bookImage: UIImageView = {
@@ -148,8 +158,20 @@ class DetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // Reset the navBar for the parent view
+        // Reset the navBar for the parent view and remove book from wishlist if removeFromWishlist is true
         resetView()
+        
+        if performAction {
+            
+            if let thisBook = book, let removeBook = removeFromWishlist {
+                
+                if removeBook {
+                    thisBook.isInDatabase() ? thisBook.removeFromDatabase() : ()
+                } else {
+                    thisBook.isInDatabase() ? () : thisBook.addToDatabase()
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -181,19 +203,40 @@ class DetailViewController: UIViewController {
     // Mark:- Button Selectors
     
     @objc func addOrRemoveFromWishList(sender: UIButton!) {
-        // Add or remove book from database
-        if let thisBook = book{
-            // Set text and action of addRemoveFromWishlist button and add or delete item
-            if thisBook.isInDatabase(){
-                thisBook.removeFromDatabase()
-                sender.isHidden = true
-                viewBookButton.isHidden = true // This is to avoid crashing as the object has been deleted
-            }
-            else {
-                thisBook.addToDatabase()
+        // Show add or remove text based on removeFromWishlist
+        performAction = true
+//        if let thisBook = book{
+//            // Set text and action of addRemoveFromWishlist button and add or delete item
+//            if thisBook.isInDatabase(){
+//                removeFromWishlist = true
+//                sender.setAttributedTitle("Add to Wishlist".buttonAttributedText(), for: .normal)
+//            }
+//            else {
+//                removeFromWishlist = false
+//                sender.setAttributedTitle("Remove from Wishlist".buttonAttributedText(), for: .normal)
+//            }
+//
+//            if let removeBook = removeFromWishlist{
+//                if removeBook{
+//                    sender.setAttributedTitle("Add to Wishlist".buttonAttributedText(), for: .normal)
+//                } else {
+//                    sender.setAttributedTitle("Remove from Wishlist".buttonAttributedText(), for: .normal)
+//                }
+//            }
+//
+//        }
+        
+        if let removeBook = removeFromWishlist{
+            
+            if removeBook{
                 sender.setAttributedTitle("Remove from Wishlist".buttonAttributedText(), for: .normal)
+            } else {
+                sender.setAttributedTitle("Add to Wishlist".buttonAttributedText(), for: .normal)
             }
+            removeFromWishlist = !removeBook
         }
+        
+        
     }
     
     @objc func goToBookWebpage(sender: UIButton!) {
