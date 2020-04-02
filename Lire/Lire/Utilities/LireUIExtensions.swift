@@ -78,6 +78,7 @@ extension String {
     
     func buttonAttributedText() -> NSAttributedString {
         
+        
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.lireNormalFont(size: 22), .foregroundColor: UIColor.white]
         
         let text = NSAttributedString(string: self, attributes: attributes)

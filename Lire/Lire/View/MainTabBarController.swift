@@ -14,6 +14,7 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         
         setupTabBar()
+        
     }
     
     private func setupTabBar() {

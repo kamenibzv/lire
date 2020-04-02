@@ -15,7 +15,7 @@ class WishListVC: UIViewController {
      This class is used to show books the user has saved
     */
     
-    // Define attributes
+    // MARK:- Define attributes
     private let realm = try! Realm()
     private let backgroundText = "Search and add books to your wishlist. Swipe left to remove from wishlist!"
     
@@ -57,7 +57,7 @@ class WishListVC: UIViewController {
         return tv
     }()
     
-    
+    // MARK:- ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -72,6 +72,7 @@ class WishListVC: UIViewController {
         tableView.register(LireCell.self, forCellReuseIdentifier: "cell")
     }
     
+    //MARK:- ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Calling this here to make sure the data is the most up to date. This function is called each time the view appears
@@ -82,7 +83,6 @@ class WishListVC: UIViewController {
         // Load books from database
         myWishList = realm.objects(Books.self)
     }
-    
 
 }
 

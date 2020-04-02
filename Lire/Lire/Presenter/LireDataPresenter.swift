@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-protocol DataPresenterProtocol {
+protocol DataPresenterProtocol: class {
     // Protocol used to update the view
     func emptryStringDetected()
     func clearBackgroundLabel()
@@ -29,7 +29,7 @@ class LireDataPresenter {
     }
     
     // Define properties
-    var delegate: DataPresenterProtocol?
+    weak var delegate: DataPresenterProtocol?
     private var resultFromCall: Root?
     
     private func cancelRequest() {

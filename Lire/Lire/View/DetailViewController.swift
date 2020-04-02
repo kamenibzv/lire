@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-//protocol DeletionOccured {
+//protocol DeletionOccured: class {
 //    // This is used to tell the SearchTableVC that the object has been deleted so it can redo a search and avoid populating
 //    // The tableview with data it already deleted and crashing
 //    func deletionDidOccur()
@@ -19,6 +19,10 @@ class DetailViewController: UIViewController {
     /*
      This view is used to show details about the book users selected
      */
+    
+    deinit {
+        print("Removed DetailViewController")
+    }
     
     var book: Books? {
         
@@ -46,6 +50,7 @@ class DetailViewController: UIViewController {
     
     private var removeFromWishlist: Bool?
     private var performAction = false
+//    weak var delegate: DeletionOccured?
     
     // Get height of navbar plus status bar
     private var navBarPlusStatusbar : CGFloat{
@@ -149,7 +154,7 @@ class DetailViewController: UIViewController {
         return button
     }()
 
-    
+    //MARK:- ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -166,6 +171,10 @@ class DetailViewController: UIViewController {
             if let thisBook = book, let removeBook = removeFromWishlist {
                 
                 if removeBook {
+//                    if thisBook.isInDatabase() {
+//                        thisBook.removeFromDatabase()
+//                        delegate?.deletionDidOccur()
+//                    }
                     thisBook.isInDatabase() ? thisBook.removeFromDatabase() : ()
                 } else {
                     thisBook.isInDatabase() ? () : thisBook.addToDatabase()
@@ -174,6 +183,7 @@ class DetailViewController: UIViewController {
         }
     }
     
+    // MARK:- ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // setup view here so when user leaves to safari and comes back, the view stays the same
@@ -200,10 +210,11 @@ class DetailViewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = nil
     }
     
-    // Mark:- Button Selectors
+    // MARK:- Button Selectors
     
     @objc func addOrRemoveFromWishList(sender: UIButton!) {
         // Show add or remove text based on removeFromWishlist
+        print(removeFromWishlist)
         performAction = true
 //        if let thisBook = book{
 //            // Set text and action of addRemoveFromWishlist button and add or delete item
@@ -234,6 +245,7 @@ class DetailViewController: UIViewController {
                 sender.setAttributedTitle("Add to Wishlist".buttonAttributedText(), for: .normal)
             }
             removeFromWishlist = !removeBook
+            print("changing remove: \(removeFromWishlist)")
         }
         
         

@@ -16,7 +16,8 @@ class SearchTableVC: UIViewController {
      This class presents the the data from the presenter which is called from the API
      */
     
-    // Define properties
+    //MARK:- Define properties
+    
 //    private let vc = DetailViewController()
     private let realm = try! Realm()
     private let presenter = LireDataPresenter()
@@ -75,19 +76,20 @@ class SearchTableVC: UIViewController {
         print("DEINIT: SearchTableVC")
     }
 
+    // MARK:- ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupview()
-//        vc.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // This is in the case where an item has been deleted from the detailVC. 
+        // This is in the case where an item has been deleted from the detailVC.
         if lastTextSearched != "" {
             presenter.performSearch(with: lastTextSearched)
         }
+        
     }
     
     private func setupview() {
@@ -98,6 +100,7 @@ class SearchTableVC: UIViewController {
         view.addSubview(indicateActivity)
         
         presenter.delegate = self
+//        vc.delegate = self
         
         tableView.isHidden = true
         labelForText.text = noSearchingText
@@ -157,6 +160,7 @@ extension SearchTableVC: UITableViewDelegate, UITableViewDataSource {
         searchBar.endEditing(true)
         let vc = DetailViewController()
         vc.book = resultFromCall?[indexPath.row]
+//        vc.delegate = self
         // hide the bottom bar
         hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
@@ -240,4 +244,14 @@ extension SearchTableVC: DataPresenterProtocol {
     
 }
 
-// MARK: - DetailVC Delegate
+////MARK: - DetailVC Delegate
+//extension SearchTableVC: DeletionOccured {
+//
+//    func deletionDidOccur() {
+//        // This is in the case where an item has been deleted from the detailVC.
+//        if lastTextSearched != "" {
+//            presenter.performSearch(with: lastTextSearched)
+//        }
+//    }
+//
+//}

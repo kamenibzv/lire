@@ -40,7 +40,14 @@ extension Books {
         
         do{
             try realm.write {
-                realm.delete(self)
+                /* Without this, there was "can only delete and object from the realm is belongs to" error
+                 This was happening due to: adding to wishlish from the SearchTableVC, then going to WishListVC, then back to SearchTableVC, then details of the item, clicking on "Remove from Wishlist", then Back button.
+                 The error was most likely because the realm object was changed when you go from the search to the wishlist page. Once the realm object changes the error occurs when you want to do just realm.delete()
+                */
+                if let productToDelete = realm.object(ofType: Books.self, forPrimaryKey: self.key) {
+                    realm.delete(productToDelete)
+                }
+                
             }
         } catch {
             print("Error deleting Category: \(error)")

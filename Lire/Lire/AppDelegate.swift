@@ -40,7 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Configure global nav and tab bar appearance
         UINavigationBar.appearance().barTintColor = UIColor.lireGreen
         UINavigationBar.appearance().tintColor = UIColor.black
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFontSize]
+//        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFontSize] This creates and error
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.white]
 //        UINavigationBar.appearance().isTranslucent = false
         UITabBar.appearance().barTintColor = UIColor.lireGreen
         UITabBar.appearance().tintColor = .white
